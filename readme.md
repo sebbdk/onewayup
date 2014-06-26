@@ -15,19 +15,21 @@ Done
 Essentials todo list:
  * add a fuel meter that makes the user favor having speed
 	- too little speed will kill the engine - reconsider
+ * Gameover screen
+ * Startgame screen
+ * Quote "i don't wanna live on this planet anymore" when starting game
+	- show a image related to this meem on one of the buildings presented as a "add"
 	
 Tweaks:
 
 Other:
- * Gameover screen
- * Startgame screen
+
  * Vary booster particle size depending on speed
-	
  * Increase music speed depending on speed
  * Jetpack soundeffect
  * "wind" particle track on jetplanes 
 		- make it a part of a animations for performance
-
+		
  * Add clouds
  * Add sattelites to move diagonally
 
@@ -41,7 +43,4 @@ Other:
 	- Duckface - "i dont wanna live in this galaxy anymore!"
  * Add parralax universe
 	- Duckface - "i dont wanna live in this uni.. oh fuckit.. *die*"
-
- * Quote "i don't wanna live on this planet anymore" when starting game
-	- show a image related to this meem on one of the buildings presented as a "add"
 
