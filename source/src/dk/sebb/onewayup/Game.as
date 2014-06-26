@@ -65,7 +65,7 @@ package dk.sebb.onewayup
 			
 			//setup music
 			music = new Assets.music();
-			//music.play(0, 10000);
+			music.play(0, 10000);
 			
 			//initiate controls
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
