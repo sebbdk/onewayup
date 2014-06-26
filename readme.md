@@ -1,16 +1,16 @@
 # OneWayUp
 
-DONE:
-	* Prevent groups of planes from forming when you "wait"
-	* Plane garbage collection
-	* add death, game reset
-	* better collision boxes for planes
-	* minimum speed the first few gameplay seconds
+DONE
+	Prevent groups of planes from forming when you "wait"
+	Plane garbage collection
+	add death, game reset
+	better collision boxes for planes
+	minimum speed the first few gameplay seconds
 		- Added a ground instead letting the player dothe liftoff
-	* Plane size
-		They could potentially block you for way too long
-	* Plane speed / start-position tweaked
-	* particle effect should be more "pixely"
+	Plane size
+	They could potentially block you for way too long
+	Plane speed / start-position tweaked
+	particle effect should be more "pixely"
 
 Essentials todo list:
 	* add a fuel meter that makes the user favor having speed
