@@ -1,9 +1,10 @@
 # OneWayUp
 
-DONE
-	- Prevent groups of planes from forming when you "wait"
-	- Plane garbage collection
-	- add death, game reset
+Done
+ * Prevent groups of planes from forming when you "wait"
+ * Plane garbage collection
+ * add death, game reset
+ 
 	- better collision boxes for planes
 	- minimum speed the first few gameplay seconds
 		- Added a ground instead letting the player dothe liftoff
