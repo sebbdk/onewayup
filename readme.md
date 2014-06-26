@@ -13,8 +13,8 @@ Done
  * particle effect should be more "pixely"
 
 Essentials todo list:
-	* add a fuel meter that makes the user favor having speed
-		- too little speed will kill the engine - reconsider
+ * add a fuel meter that makes the user favor having speed
+	- too little speed will kill the engine - reconsider
 	
 Tweaks:
 
