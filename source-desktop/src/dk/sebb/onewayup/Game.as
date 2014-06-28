@@ -1,12 +1,19 @@
 package dk.sebb.onewayup
 {
 
+	import com.greensock.TweenLite;
+	
 	import flash.media.Sound;
+	import flash.media.SoundChannel;
+	import flash.media.SoundMixer;
+	import flash.media.SoundTransform;
 	import flash.ui.Keyboard;
 	import flash.utils.getTimer;
 	import flash.utils.setInterval;
+	import flash.utils.setTimeout;
 	
 	import dk.sebb.onewayup.props.Background;
+	import dk.sebb.onewayup.props.GameInterface;
 	import dk.sebb.onewayup.props.Ground;
 	import dk.sebb.onewayup.props.Plane;
 	import dk.sebb.onewayup.props.Player;
@@ -15,27 +22,30 @@ package dk.sebb.onewayup
 	import nape.space.Space;
 	import nape.util.ShapeDebug;
 	
+	import starling.core.Starling;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.events.KeyboardEvent;
+	import starling.extensions.PDParticleSystem;
 	
 	public class Game extends Sprite
 	{
 		private var _t:int;
+		public var paused:Boolean = false;
 		
 		private var bg:Background = new Background();
 		private var ground:Ground;
-		public static var player:Player;
-		
 		private var music:Sound;
 		
 		private var speed:Number = -400;
-		
 		private var debrees:Array = [];
-		
 		private var space:Space;
+		private var gameInterface:GameInterface;
 		
+		public static var player:Player;
 		public static var instance:Game;
+		
+		public var explodeParticle:PDParticleSystem;
 		
 		private var scene:Sprite = new Sprite();
 		
@@ -65,17 +75,20 @@ package dk.sebb.onewayup
 			
 			//setup music
 			music = new Assets.music();
-			music.play(0, 10000);
+			var soundChannel:SoundChannel = music.play(0, 10000);
+
+			SoundMixer.soundTransform = new SoundTransform(0, 0);
 			
 			//initiate controls
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			
-			//start game
-			bg.move = true;
-			ground.moveDown();
+			//add explosion!
+			explodeParticle = Assets.getExplodeParticle();
+			Starling.juggler.add(explodeParticle);
 			
-			spawnDebree();
-			setInterval(spawnDebree, 100);
+			//add game interface
+			gameInterface = new GameInterface();
+			addChild(gameInterface);	
 		}
 		
 		private function onAddedToStage(evt:Event):void {
@@ -83,6 +96,13 @@ package dk.sebb.onewayup
 			
 			stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+			
+			//start game
+			bg.move = true;
+			ground.moveDown();
+			
+			tick();
+			setInterval(tick, 100);
 		}
 		
 		private function onKeyUp(evt:KeyboardEvent):void {
@@ -100,11 +120,17 @@ package dk.sebb.onewayup
 			}
 		}
 		
-		private function spawnDebree():void {
+		private function tick():void {
 			if(!player.alive) {
 				return;
 			}
 			
+			//update scores!
+			var score:int = (Math.round((player.body.position.y-stage.stageHeight+100) / 100) * -1);
+			score = score > 0 ? score:0;
+			gameInterface.scoreText.text = score.toString() + ' px';
+			
+			//sawn stuff!
 			var plane:Plane = new Plane(space);
 			scene.addChild(plane);
 			
@@ -128,50 +154,69 @@ package dk.sebb.onewayup
 		};
 		
 		public function reset():void {
-			trace('reset!');
-			for each(var plane:Plane in debrees) {
-				plane.body.space = null;
-				scene.removeChild(plane);
-			}
-			debrees = [];
+			paused = true;
+			
+			scene.addChild(explodeParticle);
+			explodeParticle.x = player.x;
+			explodeParticle.y = player.body.position.y;
+			explodeParticle.start(0.2);
+			player.visible = false;
+			
+			player.flying.packLeft.stop();
+			player.flying.packRight.stop();
+			
+			setTimeout(function():void {
+				paused = false;
+				
+				player.visible = true;
+				player.reset();
+				
+				player.flying.packLeft.start();
+				player.flying.packRight.start();
+				
+				for each(var plane:Plane in debrees) {
+					plane.body.space = null;
+					scene.removeChild(plane);
+				}
+				
+				TweenLite.to(bg.moon, 1, {
+					y:-bg.moon.height * 0.8
+				})
+				debrees = [];
+			}, 1500);
 		}
 		
 		private function onEnterFrame(e:Event):void {
-			//clean
-			var index:int = 0;
-			for each(var plane:Plane in debrees) {
-				if(plane.body.position.x > stage.stageWidth*2 || plane.body.position.x < -stage.stageWidth) {
-					plane.body.space = null;
-					scene.removeChild(plane);
-					debrees.splice(index, 1);
-				}
-				index++;
-			}
-		
-			//set max particles
-			var max:int = (player.body.velocity.y / speed) * 20 + 10;
-			max = max > 0 ? max:1;
-			player.flying.packLeft.maxNumParticles = max;
-			player.flying.packRight.maxNumParticles = max;
-			
 			//update delta
 			var t:int = getTimer();
 			var dt:Number = (t - _t) * (60/1000);
 			
 			//game update logic
-			space.step((1/60) * dt, 10, 10);
+			if(!paused) {
+				space.step((1/60) * dt, 10, 10);
 			
-			bg.update(dt, player.body.velocity.y * -1 * 0.03);
-			bg.y = 0;
-			player.update(dt);
-			
-			for each(var debree:Plane in debrees) {
-				debree.update(dt);
+				bg.update(dt, player.body.velocity.y * -1 * 0.03);
+				bg.y = 0;
+				player.update(dt);
+				
+				for each(var debree:Plane in debrees) {
+					debree.update(dt);
+				}
+				
+				//update jetpack
+				var max:int = (player.body.velocity.y / speed) * 20 + 10;
+				max = max > 0 ? max:1;
+				player.flying.packLeft.maxNumParticles = max;
+				player.flying.packRight.maxNumParticles = max;
+				
+				//update camera
+				scene.x = lerp(0.05, scene.x, -player.x + (stage.stageWidth/2));
+				scene.y = lerp(0.05, scene.y, (-player.y + (stage.stageHeight/2)) + stage.stageHeight * 0.35);
+				
+				if(player.body.velocity.y > 200) {
+					reset();
+				}
 			}
-			
-			//update camera
-			scene.x = lerp(0.05, scene.x, -player.x + (stage.stageWidth/2));
-			scene.y = lerp(0.05, scene.y, (-player.y + (stage.stageHeight/2)) + stage.stageHeight * 0.35);
 			
 			Main.napeDebug.display.x = scene.x;
 			Main.napeDebug.display.y = scene.y;

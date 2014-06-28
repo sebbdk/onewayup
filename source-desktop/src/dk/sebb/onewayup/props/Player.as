@@ -12,10 +12,12 @@ package dk.sebb.onewayup.props
 	import nape.shape.Polygon;
 	import nape.space.Space;
 	
+	import starling.core.Starling;
 	import starling.display.DisplayObject;
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
+	import starling.extensions.PDParticleSystem;
 	
 	public class Player extends Sprite
 	{

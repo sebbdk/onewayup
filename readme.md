@@ -11,10 +11,12 @@ Done
  * They could potentially block you for way too long
  * Plane speed / start-position tweaked
  * particle effect should be more "pixely"
+ * Add clouds
+ * add death if you fall too much
+ * Add parralax moon
+ * add distance traveled/score
 
 Essentials todo list:
- * add a fuel meter that makes the user favor having speed
-	- too little speed will kill the engine - reconsider
  * Gameover screen
  * Startgame screen
  * Quote "i don't wanna live on this planet anymore" when starting game
@@ -23,6 +25,11 @@ Essentials todo list:
 Tweaks:
 
 Other:
+ * add a fuel meter that makes the user favor having speed
+	- too little speed will kill the engine - reconsider
+
+ * add bonus mode, hit as many planes as you can!
+ * add bonus mode MORE SPEED!
 
  * Vary booster particle size depending on speed
  * Increase music speed depending on speed
@@ -30,17 +37,12 @@ Other:
  * "wind" particle track on jetplanes 
 		- make it a part of a animations for performance
 		
- * Add clouds
  * Add sattelites to move diagonally
 
- * Add parralax moon
-	- Duckface - "i dont wanna live in this orbit anymore!"
+	
  * Add parralax sun
-	- Duckface - "i dont wanna live near this sun anymore!"
  * Add parralax solar system
-	- Duckface - "i dont wanna live in this solarsystem anymore!"
  * Add parralax galaxy
-	- Duckface - "i dont wanna live in this galaxy anymore!"
  * Add parralax universe
-	- Duckface - "i dont wanna live in this uni.. oh fuckit.. *die*"
+ * add travel quotes
 

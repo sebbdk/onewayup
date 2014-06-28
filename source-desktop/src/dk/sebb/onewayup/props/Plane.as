@@ -68,7 +68,6 @@ package dk.sebb.onewayup.props
 		
 		private function onCollision(collision:InteractionCallback):void {
 			trace('I was hit bu the player! oh noes!');
-			Game.player.reset();
 			Game.instance.reset();
 		}
 	

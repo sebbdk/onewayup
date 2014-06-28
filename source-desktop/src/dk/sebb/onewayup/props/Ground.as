@@ -35,7 +35,7 @@ package dk.sebb.onewayup.props
 		public function onAddedToStage(evt:Event):void {
 			body.position.y = stage.stageHeight - 32;
 			body.position.x = stage.stageWidth / 2;
-			y = stage.stageHeight - image.height;
+			y = stage.stageHeight - image.height * 0.7;
 		}
 		
 		public function moveDown():void {

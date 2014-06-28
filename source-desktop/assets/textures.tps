@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>3.3.4</string>
         <key>fileName</key>
-        <string>D:/Dropbox/games/OneWayUp/source/assets/textures.tps</string>
+        <string>D:/Dropbox/games/OneWayUp/source-desktop/assets/textures.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -38,7 +38,7 @@
         <key>dataFormat</key>
         <string>sparrow</string>
         <key>textureFileName</key>
-        <filename>textures.png</filename>
+        <filename>atlas.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>ditherType</key>
@@ -131,7 +131,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>textures.xml</filename>
+                <filename>atlas.xml</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -179,6 +179,11 @@
             <filename>pilot_jetpack.png</filename>
             <filename>plane.png</filename>
             <filename>stars_repeat.png</filename>
+            <filename>cloud_01.png</filename>
+            <filename>cloud_02.png</filename>
+            <filename>cloud_03.png</filename>
+            <filename>cloud_04.png</filename>
+            <filename>moon.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
