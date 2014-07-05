@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:fcdc799ba760afd03e59af58d344d4a7:0573037db30d143ec3f6abd73185ac7b:cde709370900f12288f3449eded86f07$ -->
+<!-- $TexturePacker:SmartUpdate:e8e17b9387026aff146779e4f8ed9885:53d6d6c576eb3affd86bd6aaa3bb3c7e:cde709370900f12288f3449eded86f07$ -->
 <TextureAtlas imagePath="atlas.png">
-    <SubTexture name="cloud_01" x="324" y="682" width="167" height="79"/>
-    <SubTexture name="cloud_02" x="516" y="516" width="87" height="59"/>
-    <SubTexture name="cloud_03" x="829" y="516" width="102" height="60"/>
-    <SubTexture name="cloud_04" x="493" y="682" width="116" height="77"/>
-    <SubTexture name="ground" x="2" y="2" width="512" height="678"/>
-    <SubTexture name="moon" x="611" y="516" width="216" height="218"/>
-    <SubTexture name="pilot_01" x="568" y="577" width="24" height="60" frameX="0" frameY="-4" frameWidth="24" frameHeight="64"/>
-    <SubTexture name="pilot_02" x="516" y="577" width="24" height="64"/>
-    <SubTexture name="pilot_03" x="542" y="577" width="24" height="60" frameX="0" frameY="-4" frameWidth="24" frameHeight="64"/>
-    <SubTexture name="pilot_jetpack" x="611" y="736" width="24" height="16" frameX="0" frameY="-16" frameWidth="24" frameHeight="64"/>
-    <SubTexture name="plane" x="2" y="682" width="320" height="86"/>
-    <SubTexture name="stars_repeat" x="516" y="2" width="512" height="512"/>
+    <SubTexture name="cloud_01" x="767" y="2" width="167" height="79"/>
+    <SubTexture name="cloud_02" x="2" y="2" width="87" height="59"/>
+    <SubTexture name="cloud_03" x="91" y="2" width="102" height="60"/>
+    <SubTexture name="cloud_04" x="649" y="2" width="116" height="77"/>
+    <SubTexture name="ground" x="516" y="310" width="512" height="678"/>
+    <SubTexture name="moon" x="1030" y="90" width="216" height="218"/>
+    <SubTexture name="pilot_01" x="195" y="2" width="24" height="64"/>
+    <SubTexture name="pilot_02" x="273" y="2" width="24" height="64"/>
+    <SubTexture name="pilot_03" x="247" y="2" width="24" height="64"/>
+    <SubTexture name="pilot_jetpack" x="221" y="2" width="24" height="64"/>
+    <SubTexture name="plane" x="936" y="2" width="320" height="86"/>
+    <SubTexture name="splash_screen" x="516" y="90" width="512" height="201"/>
+    <SubTexture name="stars_repeat" x="2" y="310" width="512" height="512"/>
+    <SubTexture name="talk_bubble" x="299" y="2" width="348" height="71"/>
+    <SubTexture name="tap_start" x="2" y="90" width="512" height="107"/>
 </TextureAtlas>

@@ -15,19 +15,22 @@ Done
  * add death if you fall too much
  * Add parralax moon
  * add distance traveled/score
-
-Essentials todo list:
+ * Removed death by falling
  * Gameover screen
  * Startgame screen
  * Quote "i don't wanna live on this planet anymore" when starting game
-	- show a image related to this meem on one of the buildings presented as a "add"
+
+Essentials todo list:
+ * Better player graphic
+ * More building design
 	
 Tweaks:
 
-Other:
- * add a fuel meter that makes the user favor having speed
-	- too little speed will kill the engine - reconsider
+Bugs:
+	Sometimes a extra "ghost" plane appears on the deathscreen..
 
+Other:
+ * show a image related to this meem on one of the buildings presented as a "add"
  * add bonus mode, hit as many planes as you can!
  * add bonus mode MORE SPEED!
 
@@ -38,7 +41,6 @@ Other:
 		- make it a part of a animations for performance
 		
  * Add sattelites to move diagonally
-
 	
  * Add parralax sun
  * Add parralax solar system
@@ -46,3 +48,15 @@ Other:
  * Add parralax universe
  * add travel quotes
 
+
+
+
+
+User feedback
+	Precision, sometimes the planes go a little up and down
+		this is mostlikely caused by the camera og background lerp, it's annoying and it appears like a game bug
+
+	It's annoying!
+
+	Are there breaks?
+		- it would be to easy then :D

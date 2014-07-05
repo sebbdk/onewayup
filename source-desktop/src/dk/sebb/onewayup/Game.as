@@ -26,12 +26,16 @@ package dk.sebb.onewayup
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.events.KeyboardEvent;
+	import starling.events.Touch;
+	import starling.events.TouchEvent;
+	import starling.events.TouchPhase;
 	import starling.extensions.PDParticleSystem;
 	
 	public class Game extends Sprite
 	{
 		private var _t:int;
 		public var paused:Boolean = false;
+		public var firstTap:Boolean = true;
 		
 		private var bg:Background = new Background();
 		private var ground:Ground;
@@ -48,6 +52,8 @@ package dk.sebb.onewayup
 		public var explodeParticle:PDParticleSystem;
 		
 		private var scene:Sprite = new Sprite();
+		
+		private var camLerp:Number = 0.3;
 		
 		public function Game() {
 			instance = this;
@@ -69,19 +75,6 @@ package dk.sebb.onewayup
 			scene.addChild(player.flying.packLeft);
 			scene.addChild(player.flying.packRight);
 			
-			//setup game loop
-			_t = getTimer();
-			addEventListener(Event.ENTER_FRAME, onEnterFrame);
-			
-			//setup music
-			music = new Assets.music();
-			var soundChannel:SoundChannel = music.play(0, 10000);
-
-			SoundMixer.soundTransform = new SoundTransform(0, 0);
-			
-			//initiate controls
-			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-			
 			//add explosion!
 			explodeParticle = Assets.getExplodeParticle();
 			Starling.juggler.add(explodeParticle);
@@ -89,6 +82,31 @@ package dk.sebb.onewayup
 			//add game interface
 			gameInterface = new GameInterface();
 			addChild(gameInterface);	
+			
+			//setup music
+			music = new Assets.music();
+			var soundChannel:SoundChannel = music.play(0, 10000);
+			
+			SoundMixer.soundTransform = new SoundTransform(0, 0);
+			
+			
+			
+			//
+			//
+			//
+			//setup game loop
+			_t = getTimer();
+			addEventListener(Event.ENTER_FRAME, onEnterFrame);
+			
+			//initiate controls
+			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+			//
+			//
+			//
+		}
+		
+		private function introSequence():void {
+			
 		}
 		
 		private function onAddedToStage(evt:Event):void {
@@ -96,6 +114,8 @@ package dk.sebb.onewayup
 			
 			stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+			
+			stage.addEventListener(TouchEvent.TOUCH, go);
 			
 			//start game
 			bg.move = true;
@@ -112,12 +132,35 @@ package dk.sebb.onewayup
 			
 		private function onKeyDown(evt:KeyboardEvent):void {
 			if(evt.charCode === Keyboard.SPACE && player.alive) {
-				player.body.applyImpulse(new Vec2(0, speed));
-				player.body.velocity.y = player.body.velocity.y > speed ? player.body.velocity.y:speed;
-				
-				player.flying.packLeft.speed = 100;
-				player.flying.packRight.speed = 100; 
+				go();
 			}
+		}
+		
+		private function go(evt:TouchEvent = null):void {
+			if(evt) {
+				var touches:Vector.<Touch> = evt.getTouches(this, TouchPhase.ENDED);
+				if(touches.length == 0) return;
+			}
+			
+			if(firstTap) {
+				player.talky.visible = false;
+				TweenLite.to(player.body.position, 2, {x:stage.stageWidth/2, onComplete:function():void {
+					firstTap = false;
+					camLerp = 0.01;
+					player.flying.ignite();
+				}});
+				return;
+			}
+			
+			if(gameInterface.splashContainer.alpha === 1) {
+				TweenLite.to(gameInterface.splashContainer, 0.5, {alpha:0});
+			}
+			
+			player.body.applyImpulse(new Vec2(0, speed));
+			player.body.velocity.y = player.body.velocity.y > speed ? player.body.velocity.y:speed;
+			
+			player.flying.packLeft.speed = 100;
+			player.flying.packRight.speed = 100; 
 		}
 		
 		private function tick():void {
@@ -130,18 +173,29 @@ package dk.sebb.onewayup
 			score = score > 0 ? score:0;
 			gameInterface.scoreText.text = score.toString() + ' px';
 			
-			//sawn stuff!
+			//spawn stuff!
 			var plane:Plane = new Plane(space);
 			scene.addChild(plane);
 			
+			var cleanUp:Array = [];
 			for each(var cplane:Plane in debrees) {
-				if( Math.abs(cplane.body.position.y - plane.body.position.y)  < 300 ) {
+				if(cplane.x < -cplane.width - 50 || cplane.x > stage.stageWidth + cplane.width + 50) { //clean up the plane
+					cleanUp.push(cplane);
+					continue;
+				}
+				
+				if( Math.abs(cplane.body.position.y - plane.body.position.y)  < 178 ) {//the dist between planes
 					plane.body.space = null;
 					scene.removeChild(plane);
 					return;
 				}
 			}
 			
+			for each(var dplane:Plane in cleanUp) {
+				debrees.splice(debrees.indexOf(dplane), 1);
+				dplane.body.space = null;
+				scene.removeChild(dplane);
+			}
 			
 			debrees.push(plane);
 		}
@@ -168,6 +222,8 @@ package dk.sebb.onewayup
 			setTimeout(function():void {
 				paused = false;
 				
+				TweenLite.to(gameInterface.splashContainer, 0.5, {alpha:1});
+				
 				player.visible = true;
 				player.reset();
 				
@@ -183,6 +239,12 @@ package dk.sebb.onewayup
 					y:-bg.moon.height * 0.8
 				})
 				debrees = [];
+				
+				
+				camLerp = 0.1;
+				setTimeout(function():void {
+					camLerp = 0.01;
+				}, 500);
 			}, 1500);
 		}
 		
@@ -196,7 +258,6 @@ package dk.sebb.onewayup
 				space.step((1/60) * dt, 10, 10);
 			
 				bg.update(dt, player.body.velocity.y * -1 * 0.03);
-				bg.y = 0;
 				player.update(dt);
 				
 				for each(var debree:Plane in debrees) {
@@ -210,12 +271,13 @@ package dk.sebb.onewayup
 				player.flying.packRight.maxNumParticles = max;
 				
 				//update camera
-				scene.x = lerp(0.05, scene.x, -player.x + (stage.stageWidth/2));
-				scene.y = lerp(0.05, scene.y, (-player.y + (stage.stageHeight/2)) + stage.stageHeight * 0.35);
+				scene.x = lerp(camLerp, scene.x, 0);
+				scene.y = lerp(camLerp, scene.y, (-player.y + (stage.stageHeight/2)) + stage.stageHeight * 0.25);
 				
-				if(player.body.velocity.y > 200) {
+				
+				/*if(player.body.velocity.y > 200) {
 					reset();
-				}
+				}*/
 			}
 			
 			Main.napeDebug.display.x = scene.x;

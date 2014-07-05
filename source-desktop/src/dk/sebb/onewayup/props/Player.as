@@ -12,12 +12,10 @@ package dk.sebb.onewayup.props
 	import nape.shape.Polygon;
 	import nape.space.Space;
 	
-	import starling.core.Starling;
 	import starling.display.DisplayObject;
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
-	import starling.extensions.PDParticleSystem;
 	
 	public class Player extends Sprite
 	{
@@ -28,6 +26,10 @@ package dk.sebb.onewayup.props
 		public var body:Body;
 		public var cbtype:CbType = new CbType();
 		public var activeState:DisplayObject;
+		
+		public var isPreparing:Boolean
+		
+		public var talky:Image;
 		
 		public var alive:Boolean = true;
 		
@@ -64,6 +66,14 @@ package dk.sebb.onewayup.props
 		
 		private function onAddedToStage(evt:Event):void{
 			reset();
+			
+			body.position.x = stage.stageWidth/4;
+			
+			talky = Assets.getImage('talk_bubble');
+			parent.addChild(talky);
+			
+			talky.y = body.position.y - talky.height - (this.height/2);
+			talky.x = body.position.x + (this.width/2);
 		}
 		
 		public function reset():void {
@@ -83,12 +93,6 @@ package dk.sebb.onewayup.props
 				this.y = body.position.y;
 			}
 			
-			if(Math.abs(body.velocity.y) < 10 && activeState != standing && this.y > 650) {
-				activeState.visible = false;
-				activeState = standing;
-				activeState.visible = true;
-			}
-			
 			if(body.velocity.y < -100 && activeState != flying) {
 				activeState.visible = false;
 				activeState = flying;
@@ -98,6 +102,12 @@ package dk.sebb.onewayup.props
 			if(body.velocity.y > -100 && activeState != prepping) {
 				activeState.visible = false;
 				activeState = prepping;
+				activeState.visible = true;
+			}
+			
+			if(Math.abs(body.velocity.y) < 10 && activeState != standing && this.y > 650) {
+				activeState.visible = false;
+				activeState = standing;
 				activeState.visible = true;
 			}
 		}

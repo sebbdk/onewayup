@@ -88,7 +88,7 @@
         <key>algorithmSettings</key>
         <struct type="AlgorithmSettings">
             <key>algorithm</key>
-            <enum type="AlgorithmSettings::AlgorithmId">MaxRects</enum>
+            <enum type="AlgorithmSettings::AlgorithmId">Basic</enum>
             <key>freeSizeMode</key>
             <enum type="AlgorithmSettings::AlgorithmFreeSizeMode">Best</enum>
             <key>sizeConstraints</key>
@@ -164,7 +164,7 @@
             <key>trimThreshold</key>
             <uint>1</uint>
             <key>trimMode</key>
-            <enum type="SpriteSettings::TrimMode">Trim</enum>
+            <enum type="SpriteSettings::TrimMode">None</enum>
             <key>heuristicMask</key>
             <false/>
             <key>pivotPoint</key>
@@ -184,6 +184,9 @@
             <filename>cloud_03.png</filename>
             <filename>cloud_04.png</filename>
             <filename>moon.png</filename>
+            <filename>splash_screen.png</filename>
+            <filename>tap_start.png</filename>
+            <filename>talk_bubble.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

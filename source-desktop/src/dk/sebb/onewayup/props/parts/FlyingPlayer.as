@@ -39,8 +39,6 @@ package dk.sebb.onewayup.props.parts
 			addChild(player);
 			addChild(jetpack);
 			
-			ignite();
-			
 			addEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}
 		
@@ -55,7 +53,6 @@ package dk.sebb.onewayup.props.parts
 		public function ignite():void {
 			packLeft.start();
 			packRight.start();
-			
 			return;
 			TweenLite.to(packLeft, 3, {scaleX:0.4, scaleY:0.4, onComplete:function():void {
 				TweenLite.to(packLeft, 3, {scaleX:0.2, scaleY:0.2});

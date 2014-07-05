@@ -67,7 +67,7 @@ package dk.sebb.onewayup.props
 		}
 		
 		private function onCollision(collision:InteractionCallback):void {
-			trace('I was hit bu the player! oh noes!');
+			trace('I was hit bu the pluyer! oh noes!');
 			Game.instance.reset();
 		}
 	
@@ -80,7 +80,8 @@ package dk.sebb.onewayup.props
 			body.scaleShapes(direction, 1);
 			
 			//body.position.y = Game.player.body.position.y - (stage.stageHeight) * Math.random() - stage.stageHeight * 0.8;
-			body.position.y = Game.player.body.position.y - stage.stageHeight + speed;
+			var bpos:int = Game.player.body.position.y < -512 ? Game.player.body.position.y:-256;
+			body.position.y = bpos - 512 + (1024 * Math.random());
 			
 			
 			body.position.x = direction > 0 ? -plane.width : stage.stageWidth + (plane.width/2);
@@ -90,6 +91,16 @@ package dk.sebb.onewayup.props
 		public function update(dt:Number):void {
 			this.x = body.position.x;
 			this.y = body.position.y;
+			
+			if(Game.player.body.velocity.y > 0) {
+				if(Game.player.body.position.x > body.position.y) {
+					body.velocity.y = -Math.abs(Game.player.body.velocity.y) * 2;
+				} else {
+					body.velocity.y = Math.abs(Game.player.body.velocity.y) * 2;
+				}
+			} else {
+				body.velocity.y = 0;
+			}
 		}
 	}
 }
