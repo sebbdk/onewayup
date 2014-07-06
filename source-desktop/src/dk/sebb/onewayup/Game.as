@@ -41,7 +41,7 @@ package dk.sebb.onewayup
 		private var ground:Ground;
 		private var music:Sound;
 		
-		private var speed:Number = -400;
+		private var speed:Number = -250;
 		private var debrees:Array = [];
 		private var space:Space;
 		private var gameInterface:GameInterface;
@@ -143,12 +143,14 @@ package dk.sebb.onewayup
 			}
 			
 			if(firstTap) {
-				player.talky.visible = false;
-				TweenLite.to(player.body.position, 2, {x:stage.stageWidth/2, onComplete:function():void {
-					firstTap = false;
-					camLerp = 0.01;
-					player.flying.ignite();
-				}});
+				if(player.talky.visible) {
+					player.talky.visible = false;
+					TweenLite.to(player.body.position, 2, {x:stage.stageWidth/2, onComplete:function():void {
+						firstTap = false;
+						camLerp = 0.01;
+						player.flying.ignite();
+					}});
+				}
 				return;
 			}
 			

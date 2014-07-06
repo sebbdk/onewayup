@@ -72,7 +72,7 @@ package dk.sebb.onewayup.props
 		}
 	
 		public function flyBy(evt:Event):void {
-			speed = baseSpeed + Math.random() * 200;
+			speed = baseSpeed + Math.random() * 100;
 			
 			var direction:int = Math.round(Math.random()) == 1 ? 1:-1;
 			body.velocity.x = direction * speed;
